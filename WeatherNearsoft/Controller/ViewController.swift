@@ -34,7 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         self.setupLocationManager()
     }
-    
+
     //MARK: - View Orientation
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation.isLandscape {
@@ -52,10 +52,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == CLAuthorizationStatus.denied){
+            self.currentCountry = nil
+            self.startLoading()
+            self.showLocationDisabledPopUp()
+        }
+    }
+    
     //MARK: - Actions
     @IBAction func buttonRefreshPressed(_ sender: Any) {
-        self.locationManager.startUpdatingLocation()
-        self.startLoading()
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            self.locationManager.startUpdatingLocation()
+            self.startLoading()
+        }else {
+            self.currentCountry = nil
+            self.startLoading()
+            self.showLocationDisabledPopUp()
+        }
     }
     
     @IBAction func switchPressed(_ sender: Any) {
@@ -173,5 +187,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return (isReachable && !needsConnection)
     }
     
+    func showLocationDisabledPopUp(){
+        self.labelTemp.text = "Location Authorization Needed"
+        self.activityIndicator.stopAnimating()
+        let alertController = UIAlertController(title: "Location Access Disables", message: "Location its needed to get the weather", preferredStyle: .alert)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
     
 }

@@ -11,13 +11,15 @@ import Foundation
 struct WebService {
     static func getWeather(latitude : Double, longitude : Double, completionHandler:@escaping (_ status : Bool,_ message : String ,_ country : Country?)->()){
         let session = URLSession.shared
+        let stringUnableToFindTemp = "Unable to find temperature"
+        let stringUnableToConnect = "Unable to connect to the server"
         print(WebLinks.Service.urlGetWeather)
-        if let weatherURL = URL(string: "\(WebLinks.Service.urlGetWeather)lat=\(latitude)&lon=\(longitude)\(WebLinks.apiKey)") {
+        if let weatherURL = URL(string: "\(WebLinks.Service.urlGetWeather)lat=\(latitude)&lon=\(longitude)&units=imperial\(WebLinks.apiKey)") {
             let dataTask = session.dataTask(with: weatherURL) {
                 (data: Data?, response: URLResponse?, error: Error?) in
                 if let error = error {
                     print("Error:\n\(error)")
-                    completionHandler(false, "Unable to connect to the server", nil)
+                    completionHandler(false, stringUnableToConnect, nil)
                 } else {
                     if let data = data {
                         let dataString = String(data: data, encoding: String.Encoding.utf8)
@@ -68,22 +70,22 @@ struct WebService {
                                 completionHandler(true, "Succes", country)
                             }else {
                                 print("Error: unable to find temperature in dictionary")
-                                completionHandler(false, "Unable to find temperature", nil)
+                                completionHandler(false, stringUnableToFindTemp, nil)
                             }
                         } else {
                             print("Error: unable to convert json data")
-                            completionHandler(false, "Unable to find temperature", nil)
+                            completionHandler(false, stringUnableToFindTemp, nil)
                         }
                     } else {
                         print("Error: did not receive data")
-                        completionHandler(false, "Unable to find temperature", nil)
+                        completionHandler(false, stringUnableToFindTemp, nil)
                     }
                 }
             }
             dataTask.resume()
         }else {
             print("Error: unable to create url")
-            completionHandler(false, "Unable to connect to the server", nil)
+            completionHandler(false, stringUnableToConnect, nil)
         }
     }
 }
