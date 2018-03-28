@@ -38,9 +38,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - View Orientation
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation.isLandscape {
-            self.constraintTopLabelTemp.constant = 100
+            self.constraintTopLabelTemp.constant = 50
         }else {
-            self.constraintTopLabelTemp.constant = 70
+            self.constraintTopLabelTemp.constant = 100
         }
     }
     
@@ -48,7 +48,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             self.locationManager.stopUpdatingLocation()
-            self.getWeather(location : location)
+            self.getWeather(userLocation : location)
         }
     }
     
@@ -94,15 +94,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func getWeather(location : CLLocation) {
+    func getWeather(userLocation : CLLocation) {
         if self.isInternetAvailable() {
             self.startLoading()
-            let latitude = location.coordinate.latitude as Double
-            let longitude = location.coordinate.longitude as Double
-            WebService.getWeather(latitude: latitude, longitude: longitude) { (status : Bool, message : String, country : Country?) in
+            WebService.getWeather(location : userLocation) { (status : Bool, message : String, country : Country?) in
                 if status {
                     if let countryValues = country {
                         self.currentCountry = countryValues
+                        self.getCityName(userLocation: userLocation)
                         self.showWeatherValues()
                         self.locationManager.stopUpdatingLocation()
                     }else {
@@ -115,6 +114,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }else {
             self.locationManager.stopUpdatingLocation()
             self.showError(errorMessage: "No Internet Connection")
+        }
+    }
+    
+    func getCityName(userLocation : CLLocation){
+        CLGeocoder().reverseGeocodeLocation(userLocation) { (placemark, error) in
+            if error != nil {
+                self.labelLocation.text = "Error getting location"
+            }else {
+                if let place = placemark?.first {
+                    self.currentCountry?.city = place.locality ?? ""
+                    if let country = self.currentCountry {
+                        self.labelLocation.text = "\(country.city), \(country.name)"
+                    }
+                }
+            }
         }
     }
     
@@ -131,7 +145,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.labelMinTemp.text = "Min: \(self.convertToCelsius(fahrenheit: country.minTemp)) ºC"
                     self.labelTemp.text = "\(self.convertToCelsius(fahrenheit: country.temp)) ºC"
                 }
-                self.labelLocation.text = "\(country.city), \(country.name)"
+                
                 self.activityIndicator.stopAnimating()
             }
         }
@@ -152,9 +166,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func startLoading(){
         self.activityIndicator.startAnimating()
         self.labelTemp.text = ""
-        self.labelMaxTemp.text = ""
-        self.labelMinTemp.text = ""
-        self.labelLocation.text = ""
+        self.labelMaxTemp.text = "---"
+        self.labelMinTemp.text = "---"
+        self.labelLocation.text = "---"
         self.labelCelcius.text = "Celcius"
         self.labelFarenheit.text = "Fahrenheit"
         self.switchButton.isHidden = false
@@ -201,5 +215,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.present(alertController, animated: true, completion: nil)
     }
-    
 }

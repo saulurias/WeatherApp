@@ -31,6 +31,9 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10º" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="9BT-cR-EHa">
                                         <rect key="frame" x="17.666666666666657" y="100" width="340" height="59"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="59" id="iBw-r7-AGY"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="50"/>
                                         <color key="textColor" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -47,6 +50,9 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City, Country" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mqq-by-8iP">
                                         <rect key="frame" x="17.666666666666657" y="184" width="340" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="Jp8-9b-zBZ"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -77,6 +83,7 @@
                                     </button>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jP9-HG-WXB">
                                         <rect key="frame" x="169.66666666666666" y="111.66666666666666" width="37" height="37"/>
+                                        <color key="color" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cm-oM-Iig">
                                         <rect key="frame" x="163.66666666666666" y="288" width="51" height="31"/>

@@ -9,7 +9,7 @@
 import Foundation
 struct Country {
     let name : String
-    let city : String
+    var city : String
     let maxTemp : Double
     let minTemp : Double
     let temp : Double
