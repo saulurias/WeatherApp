@@ -14,7 +14,7 @@
 		B418099F2069993A002CC520 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B418099D2069993A002CC520 /* LaunchScreen.storyboard */; };
 		B41809AA2069996A002CC520 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809A92069996A002CC520 /* WebService.swift */; };
 		B41809AC2069997D002CC520 /* WebLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809AB2069997D002CC520 /* WebLinks.swift */; };
-		B41809B02069A72D002CC520 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809AF2069A72D002CC520 /* Country.swift */; };
+		B41809B02069A72D002CC520 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809AF2069A72D002CC520 /* Weather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		B41809A02069993A002CC520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B41809A92069996A002CC520 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		B41809AB2069997D002CC520 /* WebLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLinks.swift; sourceTree = "<group>"; };
-		B41809AF2069A72D002CC520 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		B41809AF2069A72D002CC520 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		B41809B22069ACFE002CC520 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		B41809B32069ACFE002CC520 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,7 +111,7 @@
 		B41809AE2069A719002CC520 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				B41809AF2069A72D002CC520 /* Country.swift */,
+				B41809AF2069A72D002CC520 /* Weather.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -200,7 +200,7 @@
 				B41809AC2069997D002CC520 /* WebLinks.swift in Sources */,
 				B41809972069993A002CC520 /* ViewController.swift in Sources */,
 				B41809952069993A002CC520 /* AppDelegate.swift in Sources */,
-				B41809B02069A72D002CC520 /* Country.swift in Sources */,
+				B41809B02069A72D002CC520 /* Weather.swift in Sources */,
 				B41809AA2069996A002CC520 /* WebService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

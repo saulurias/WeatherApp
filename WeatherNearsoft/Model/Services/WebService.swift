@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 struct WebService {
-    static func getWeather(location : CLLocation, completionHandler:@escaping (_ status : Bool,_ message : String ,_ country : Country?)->()){
+    static func getWeather(location : CLLocation, completionHandler:@escaping (_ status : Bool,_ message : String ,_ weather : Weather?)->()){
         
         let latitude = location.coordinate.latitude as Double
         let longitude = location.coordinate.longitude as Double
@@ -62,8 +62,8 @@ struct WebService {
                             //End Getting temperature
                             
                             if countryName != "" {
-                                let country = Country(name: countryName, city: "", maxTemp: maxTemp, minTemp: minTemp, temp: temp)
-                                completionHandler(true, "Succes", country)
+                                let weather = Weather(countryName: countryName, maxTemp: maxTemp, minTemp: minTemp, temp: temp)
+                                completionHandler(true, "Succes", weather)
                             }else {
                                 print("Error: unable to find temperature in dictionary")
                                 completionHandler(false, stringUnableToFindTemp, nil)

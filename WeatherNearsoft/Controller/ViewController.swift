@@ -25,7 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var switchButton: UISwitch!
     
     //MARK: - Varailabels And Constants
-    var currentCountry : Country?
+    var currentWeather : Weather?
     var mustShowFahrenheit = true
     let locationManager = CLLocationManager()
     
@@ -54,7 +54,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if (status == CLAuthorizationStatus.denied){
-            self.currentCountry = nil
+            self.currentWeather = nil
             self.startLoading()
             self.showLocationDisabledPopUp()
         }
@@ -66,7 +66,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.locationManager.startUpdatingLocation()
             self.startLoading()
         }else {
-            self.currentCountry = nil
+            self.currentWeather = nil
             self.startLoading()
             self.showLocationDisabledPopUp()
         }
@@ -97,10 +97,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func getWeather(userLocation : CLLocation) {
         if self.isInternetAvailable() {
             self.startLoading()
-            WebService.getWeather(location : userLocation) { (status : Bool, message : String, country : Country?) in
+            WebService.getWeather(location : userLocation) { (status, message, weather) in
                 if status {
-                    if let countryValues = country {
-                        self.currentCountry = countryValues
+                    if let weatherValues = weather {
+                        self.currentWeather = weatherValues
                         self.getCityName(userLocation: userLocation)
                         self.showWeatherValues()
                         self.locationManager.stopUpdatingLocation()
@@ -123,9 +123,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.labelLocation.text = "Error getting location"
             }else {
                 if let place = placemark?.first {
-                    self.currentCountry?.city = place.locality ?? ""
-                    if let country = self.currentCountry {
-                        self.labelLocation.text = "\(country.city), \(country.name)"
+                    let city = place.locality ?? ""
+                    if let weather = self.currentWeather {
+                        self.labelLocation.text = "\(city), \(weather.countryName)"
                     }
                 }
             }
@@ -135,15 +135,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func showWeatherValues(){
         //Printing Values
         DispatchQueue.main.async {
-            if let country = self.currentCountry {
+            if let weather = self.currentWeather {
                 if self.mustShowFahrenheit {
-                    self.labelMaxTemp.text = "Max: \(country.maxTemp) ºF"
-                    self.labelMinTemp.text = "Min: \(country.minTemp) ºF"
-                    self.labelTemp.text = "\(country.temp) ºF"
+                    self.labelMaxTemp.text = "Max: \(weather.maxTemp) ºF"
+                    self.labelMinTemp.text = "Min: \(weather.minTemp) ºF"
+                    self.labelTemp.text = "\(weather.temp) ºF"
                 }else {
-                    self.labelMaxTemp.text = "Max: \(self.convertToCelsius(fahrenheit: country.maxTemp)) ºC"
-                    self.labelMinTemp.text = "Min: \(self.convertToCelsius(fahrenheit: country.minTemp)) ºC"
-                    self.labelTemp.text = "\(self.convertToCelsius(fahrenheit: country.temp)) ºC"
+                    self.labelMaxTemp.text = "Max: \(self.convertToCelsius(fahrenheit: weather.maxTemp)) ºC"
+                    self.labelMinTemp.text = "Min: \(self.convertToCelsius(fahrenheit: weather.minTemp)) ºC"
+                    self.labelTemp.text = "\(self.convertToCelsius(fahrenheit: weather.temp)) ºC"
                 }
                 
                 self.activityIndicator.stopAnimating()

@@ -7,9 +7,8 @@
 //
 
 import Foundation
-struct Country {
-    let name : String
-    var city : String
+struct Weather {
+    let countryName : String    
     let maxTemp : Double
     let minTemp : Double
     let temp : Double
