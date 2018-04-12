@@ -74,8 +74,8 @@ class WeatherViewController: UIViewController {
             self.currentWeather = weatherValues
             self.getCityName(withUserLocation: userLocation)
             self.showWeatherValues()
-        }, onFailure: { errorMessage in
-            self.modifyOutletsForErrorMessage(errorMessage: errorMessage)
+        }, onFailure: { error in
+            self.modifyOutletsForErrorMessage(errorMessage: error.message)
         })
     }
     

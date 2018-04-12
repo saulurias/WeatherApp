@@ -11,11 +11,11 @@ import CoreLocation
 
 struct WeatherViewModel {
 
-    static func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ weather: Weather)-> Void, onFailure: @escaping(_ message: String )-> Void){        
+    static func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ weather: Weather)-> Void, onFailure: @escaping(_ error : Error)-> Void){
         WeatherService.getWeather(withLocation: location, onSuccess: { (weatherValues) in
             onSuccess(weatherValues)
-        }, onFailure: { (errorMessage) in
-            onFailure(errorMessage)
+        }, onFailure: { (errorValue) in
+            onFailure(errorValue)
         })
     }
     
