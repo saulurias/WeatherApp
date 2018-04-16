@@ -22,14 +22,14 @@ struct WeatherViewModel {
     static func getCityName(byUserLocation location : CLLocation, onSucces: @escaping(_ location : String) -> Void, onFailure: @escaping(_ errorMessage: String) -> Void)  {
         CLGeocoder().reverseGeocodeLocation(location) { (placemark, error) in
             if error != nil {
-                onFailure("Error getting location")
+                onFailure("City not found")
             }else {
                 if let place = placemark?.first {
                     //return place.locality ?? "City not found"
                     if let locality = place.locality {
                         onSucces(locality)
                     }else {
-                        onFailure("Error getting location")
+                        onFailure("City not found")
                     }
                 }
             }

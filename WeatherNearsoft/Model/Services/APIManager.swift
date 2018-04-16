@@ -12,5 +12,4 @@ struct APIManager {
     static let baseUrl = "http://api.openweathermap.org/data/2.5"
     
     static let apiKey = "&APPID=2fb032f8bca602cc0daf939627da8059"
-    
 }

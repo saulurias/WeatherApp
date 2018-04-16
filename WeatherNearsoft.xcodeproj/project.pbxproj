@@ -71,7 +71,6 @@
 				B41809A820699952002CC520 /* Model */,
 				B41809A72069994C002CC520 /* View */,
 				B47935ED206DF5C4001C630A /* ViewModel */,
-				B41809B12069ACE4002CC520 /* Supporting Files */,
 				B48D2ACD206DED5500203DCF /* Helpers */,
 				B41809942069993A002CC520 /* AppDelegate.swift */,
 				B418099B2069993A002CC520 /* Assets.xcassets */,
@@ -117,13 +116,13 @@
 			path = Weather;
 			sourceTree = "<group>";
 		};
-		B41809B12069ACE4002CC520 /* Supporting Files */ = {
+		B41809B12069ACE4002CC520 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				B41809B22069ACFE002CC520 /* Roboto-Bold.ttf */,
 				B41809B32069ACFE002CC520 /* Roboto-Regular.ttf */,
 			);
-			path = "Supporting Files";
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		B47935ED206DF5C4001C630A /* ViewModel */ = {
@@ -138,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				B47935EB206DF375001C630A /* WeatherConverter.swift */,
+				B41809B12069ACE4002CC520 /* Fonts */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
