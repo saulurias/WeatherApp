@@ -10,33 +10,42 @@ import Foundation
 import CoreLocation
 
 struct WeatherViewModel {
+    
+    let weatherService = WeatherService()
 
-    static func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ weather: Weather)-> Void, onFailure: @escaping(_ error : Error)-> Void){
-        WeatherService.getWeather(withLocation: location, onSuccess: { (weatherValues) in
-            onSuccess(weatherValues)
+    func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ weather: Weather)-> Void, onFailure: @escaping(_ error : Error)-> Void){
+        weatherService.getWeather(withLocation: location, onSuccess: { (jsonObject) in
+            
+            guard let weather = Weather(jsonObject: jsonObject) else {
+                let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                return onFailure(error)
+            }
+            
+            onSuccess(weather)
         }, onFailure: { (errorValue) in
             onFailure(errorValue)
         })
     }
     
-    static func getCityName(byUserLocation location : CLLocation, onSucces: @escaping(_ location : String) -> Void, onFailure: @escaping(_ errorMessage: String) -> Void)  {
+    func getCityName(byUserLocation location : CLLocation, onSucces: @escaping(_ location : String) -> Void, onFailure: @escaping(_ error: Error) -> Void)  {
         CLGeocoder().reverseGeocodeLocation(location) { (placemark, error) in
             if error != nil {
-                onFailure("City not found")
+                let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                return onFailure(error)
             }else {
                 if let place = placemark?.first {
-                    //return place.locality ?? "City not found"
                     if let locality = place.locality {
                         onSucces(locality)
                     }else {
-                        onFailure("City not found")
+                        let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                        return onFailure(error)
                     }
                 }
             }
         }
     }
     
-    static func locationAuthorized() -> Bool {
+    func locationAuthorized() -> Bool {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             return true
         }

@@ -9,34 +9,38 @@
 import Foundation
 struct Weather {
     let countryName : String    
-    let maxTemp : Double
-    let minTemp : Double
-    let temp : Double
+    let maxTemperature : Double
+    let minTemperature : Double
+    let temperature : Double
     
-    init(jsonWeather : [String : Any]) {
-        if let countryDictionary = jsonWeather["sys"] as? [String : Any] {
+    init?(jsonObject : [String : Any]) {
+        
+        if let countryDictionary = jsonObject["sys"] as? [String : Any] {
             self.countryName = countryDictionary["country"] as? String ?? ""
         }else {
-            print("No fue posible acceder a sys")
             self.countryName = "Country not found."
         }
         
+        guard let jsonWeather = jsonObject["main"] as? [String : Any] else {
+            return nil
+        }
+        
         if let jsonMaxTemp = jsonWeather["temp_max"] as? Double {
-            self.maxTemp = jsonMaxTemp
+            self.maxTemperature = jsonMaxTemp
         }else {
-            self.maxTemp = 0.0
+            self.maxTemperature = 0.0
         }
         
         if let jsonMinTemp = jsonWeather["temp_min"] as? Double {
-            self.minTemp = jsonMinTemp
+            self.minTemperature = jsonMinTemp
         }else {
-            self.minTemp = 0.0
+            self.minTemperature = 0.0
         }
         
         if let jsonTemp = jsonWeather["temp"] as? Double {
-            self.temp = jsonTemp
+            self.temperature = jsonTemp
         }else {
-            self.temp = 0.0
+            self.temperature = 0.0
         }
     }
 }
