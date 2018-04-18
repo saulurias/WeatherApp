@@ -30,17 +30,20 @@ struct WeatherViewModel {
     func getCityName(byUserLocation location : CLLocation, onSucces: @escaping(_ location : String) -> Void, onFailure: @escaping(_ error: Error) -> Void)  {
         CLGeocoder().reverseGeocodeLocation(location) { (placemark, error) in
             if error != nil {
-                let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                let error = Error(code: 404, message: StringValues.stringCityNotFound)
                 return onFailure(error)
             }else {
-                if let place = placemark?.first {
-                    if let locality = place.locality {
-                        onSucces(locality)
-                    }else {
-                        let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
-                        return onFailure(error)
-                    }
+                guard let place = placemark?.first else {
+                    let error = Error(code: 404, message: StringValues.stringCityNotFound)
+                    return onFailure(error)
                 }
+                
+                guard let locality = place.locality else {
+                    let error = Error(code: 404, message: StringValues.stringCityNotFound)
+                    return onFailure(error)
+                }
+                
+                onSucces(locality)
             }
         }
     }

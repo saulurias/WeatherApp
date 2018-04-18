@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,14 +19,14 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WeatherViewController" customModule="WeatherNearsoft" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxB-O5-BvR">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.34999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="9BT-cR-EHa">
-                                        <rect key="frame" x="17.5" y="100" width="340" height="59"/>
+                                        <rect key="frame" x="17.5" y="100" width="565" height="59"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="59" id="iBw-r7-AGY"/>
                                         </constraints>
@@ -49,7 +45,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mqq-by-8iP">
-                                        <rect key="frame" x="17.5" y="184" width="340" height="24"/>
+                                        <rect key="frame" x="17.5" y="184" width="565" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Jp8-9b-zBZ"/>
                                         </constraints>
@@ -58,7 +54,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dzK-K3-fj3">
-                                        <rect key="frame" x="220" y="45" width="130" height="18"/>
+                                        <rect key="frame" x="445" y="45" width="130" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="JYB-Wb-UMp"/>
                                             <constraint firstAttribute="width" constant="130" id="Ko2-nX-Q4t"/>
@@ -68,7 +64,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFV-Gk-P00">
-                                        <rect key="frame" x="144.5" y="233" width="87" height="30"/>
+                                        <rect key="frame" x="257" y="233" width="87" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="cbs-xM-ErF"/>
                                             <constraint firstAttribute="width" constant="87" id="sKr-Kj-8bw"/>
@@ -82,23 +78,23 @@
                                         </connections>
                                     </button>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jP9-HG-WXB">
-                                        <rect key="frame" x="169.5" y="111.5" width="37" height="37"/>
+                                        <rect key="frame" x="282" y="111.5" width="37" height="37"/>
                                         <color key="color" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cm-oM-Iig">
-                                        <rect key="frame" x="163.5" y="288" width="51" height="31"/>
+                                        <rect key="frame" x="276" y="288" width="51" height="31"/>
                                         <connections>
                                             <action selector="switchPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="foO-Aa-eWe"/>
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Celcius" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gS-uF-IKH">
-                                        <rect key="frame" x="102.5" y="294" width="49" height="18"/>
+                                        <rect key="frame" x="215" y="294" width="49" height="18"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                         <color key="textColor" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fahrenheit" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9L-o5-9zR">
-                                        <rect key="frame" x="224.5" y="294" width="71" height="18"/>
+                                        <rect key="frame" x="337" y="294" width="71" height="18"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                         <color key="textColor" red="0.14620491860000001" green="0.60855978730000004" blue="0.90595012900000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -145,9 +141,9 @@
                         <outlet property="labelCelcius" destination="0gS-uF-IKH" id="lnL-Bi-DKJ"/>
                         <outlet property="labelFarenheit" destination="F9L-o5-9zR" id="oMi-AR-6iU"/>
                         <outlet property="labelLocation" destination="Mqq-by-8iP" id="gXY-dz-f2G"/>
-                        <outlet property="labelMaxTemp" destination="dzK-K3-fj3" id="WuW-72-xSV"/>
-                        <outlet property="labelMinTemp" destination="T4E-lV-kpZ" id="XFG-Rm-q9c"/>
-                        <outlet property="labelTemp" destination="9BT-cR-EHa" id="Fwe-TB-xmh"/>
+                        <outlet property="labelMaxTemperature" destination="dzK-K3-fj3" id="WuW-72-xSV"/>
+                        <outlet property="labelMinTemperature" destination="T4E-lV-kpZ" id="XFG-Rm-q9c"/>
+                        <outlet property="labelTemperature" destination="9BT-cR-EHa" id="Fwe-TB-xmh"/>
                         <outlet property="switchButton" destination="2Cm-oM-Iig" id="RH5-tW-JAh"/>
                     </connections>
                 </viewController>

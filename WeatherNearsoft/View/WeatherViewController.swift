@@ -12,9 +12,9 @@ import SystemConfiguration
 
 class WeatherViewController: UIViewController {
     //MARK: - IBOutlets
-    @IBOutlet weak var labelMaxTemp: UILabel!
-    @IBOutlet weak var labelMinTemp: UILabel!
-    @IBOutlet weak var labelTemp: UILabel!
+    @IBOutlet weak var labelMaxTemperature: UILabel!
+    @IBOutlet weak var labelMinTemperature: UILabel!
+    @IBOutlet weak var labelTemperature: UILabel!
     @IBOutlet weak var labelLocation: UILabel!
     @IBOutlet weak var buttonRefresh: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -24,10 +24,11 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var switchButton: UISwitch!
     
     //MARK: - Varailabels And Constants
-    var currentWeather : Weather?
-    var mustShowFahrenheit = true
-    let locationManager = CLLocationManager()
-    let weatherViewModel = WeatherViewModel()
+    private var currentWeather : Weather?
+    private var mustShowFahrenheit = true
+    private let locationManager = CLLocationManager()
+    private let weatherViewModel = WeatherViewModel()
+    //private let weatherConverter = WeatherConverter() //Nos genera error
     
     //MARK: - View Life
     override func viewDidLoad() {
@@ -38,15 +39,6 @@ class WeatherViewController: UIViewController {
     //MARK: - View Orientation
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         constraintTopLabelTemp.constant = UIDevice.current.orientation.isLandscape ? 50 : 100
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if (status == CLAuthorizationStatus.denied){
-            currentWeather = nil
-            modifyOutletValuesForLoadingView()
-            showLocationDisabledAlert()
-            setLabelLocationAthorizationNeeded()
-        }
     }
     
     //MARK: - Actions
@@ -65,6 +57,7 @@ class WeatherViewController: UIViewController {
         }else {
             mustShowFahrenheit = true
         }
+        
         modifyOutletValuesToShowWeatherValues()
     }
     
@@ -80,16 +73,18 @@ class WeatherViewController: UIViewController {
         })
     }
     
+    //FIXME: - Buscar solución lógica para la situación en la que no se encontro la ciudad
     func getCityName(withUserLocation location: CLLocation) {
         weatherViewModel.getCityName(byUserLocation: location, onSucces: { (city) in
             self.setLocationLabel(usingCityName: city)
-        }) { (error) in
-            self.setLocationLabelError(withErrorMessage: error.message)
-        }
+        }, onFailure: { (error) in
+            //self.setLocationLabelError(withErrorMessage: error.message)  
+            self.setLocationLabel(usingCityName: error.message)
+        })
     }
     
     func setLocationLabel(usingCityName city : String){
-        let country = currentWeather?.countryName ?? ""
+        let country = currentWeather?.countryName ?? "Country not found."
         labelLocation.text = "\(city), \(country)"
     }
     
@@ -101,15 +96,15 @@ class WeatherViewController: UIViewController {
         //Printing Values
         DispatchQueue.main.async {
             if let weather = self.currentWeather {
-                if self.mustShowFahrenheit {
-                    self.labelMaxTemp.text = "Max: \(weather.maxTemperature) ºF"
-                    self.labelMinTemp.text = "Min: \(weather.minTemperature) ºF"
-                    self.labelTemp.text = "\(weather.temperature) ºF"
-                }else {
-                    self.labelMaxTemp.text = "Max: \(WeatherConverter.convertToCelsius(fromFarenheit: weather.maxTemperature)) ºC"
-                    self.labelMinTemp.text = "Min: \(WeatherConverter.convertToCelsius(fromFarenheit: weather.minTemperature)) ºC"
-                    self.labelTemp.text = "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.temperature)) ºC"
-                }
+                
+                let maxTemperature = self.mustShowFahrenheit ? "\(weather.maxTemperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.maxTemperature)) ºC"
+                let minTemperature = self.mustShowFahrenheit ? "\(weather.minTemperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.minTemperature)) ºC"
+                let temperature = self.mustShowFahrenheit ? "\(weather.temperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.temperature)) ºC"
+                
+                self.labelMaxTemperature.text = maxTemperature
+                self.labelMinTemperature.text = minTemperature
+                self.labelTemperature.text = temperature
+                
                 self.activityIndicator.stopAnimating()
             }else {
                 self.modifyOutletValuesForErrorMessage(errorMessage: StringValues.stringUnableToFindTemperature)
@@ -119,9 +114,9 @@ class WeatherViewController: UIViewController {
     
     func modifyOutletValuesForErrorMessage(errorMessage : String){
         DispatchQueue.main.async {
-            self.labelTemp.text = errorMessage
-            self.labelMaxTemp.text = ""
-            self.labelMinTemp.text = ""
+            self.labelTemperature.text = errorMessage
+            self.labelMaxTemperature.text = ""
+            self.labelMinTemperature.text = ""
             self.labelLocation.text = ""
             self.labelCelcius.text = ""
             self.labelFarenheit.text = ""
@@ -134,9 +129,9 @@ class WeatherViewController: UIViewController {
     func modifyOutletValuesForLoadingView(){
         DispatchQueue.main.async {
             self.activityIndicator.startAnimating()
-            self.labelTemp.text = ""
-            self.labelMaxTemp.text = "---"
-            self.labelMinTemp.text = "---"
+            self.labelTemperature.text = ""
+            self.labelMaxTemperature.text = "---"
+            self.labelMinTemperature.text = "---"
             self.labelLocation.text = "---"
             self.labelCelcius.text = "Celcius"
             self.labelFarenheit.text = "Fahrenheit"
@@ -160,12 +155,9 @@ class WeatherViewController: UIViewController {
     }
     
     func setLabelLocationAthorizationNeeded(){
-        labelTemp.text = StringValues.stringLocationAuthorizationNeeded
+        labelTemperature.text = StringValues.stringLocationAuthorizationNeeded
     }
     
-}
-//MARK: - CLLocation Manager Delegate
-extension WeatherViewController : CLLocationManagerDelegate {
     func setupLocationManager(){
         //Request when the App is open
         locationManager.requestWhenInUseAuthorization()
@@ -177,6 +169,9 @@ extension WeatherViewController : CLLocationManagerDelegate {
         }
     }
     
+}
+//MARK: - CLLocation Manager Delegate
+extension WeatherViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             locationManager.stopUpdatingLocation()
@@ -184,4 +179,18 @@ extension WeatherViewController : CLLocationManagerDelegate {
             getWeather(withUserLocation : location)
         }
     }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == CLAuthorizationStatus.denied){
+            currentWeather = nil
+            modifyOutletValuesForLoadingView()
+            showLocationDisabledAlert()
+            setLabelLocationAthorizationNeeded()
+        }
+    }
+    
+    private func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        modifyOutletValuesForErrorMessage(errorMessage: StringValues.stringLocationAccessError)
+    }
+    
 }

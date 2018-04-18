@@ -13,5 +13,6 @@ struct StringValues {
     static let stringUnableToConnectToServer = "Unable to connect to the server"
     static let stringLocationAuthorizationNeeded = "Location Authorization Needed"
     static let stringCityNotFound = "City not found"
-    static let stringLocationAccessDisabled = "Location Access Disabled"    
+    static let stringLocationAccessDisabled = "Location Access Disabled"
+    static let stringLocationAccessError = "Unable to get location"
 }
