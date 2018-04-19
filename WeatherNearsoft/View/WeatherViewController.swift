@@ -28,7 +28,7 @@ class WeatherViewController: UIViewController {
     private var mustShowFahrenheit = true
     private let locationManager = CLLocationManager()
     private let weatherViewModel = WeatherViewModel()
-    //private let weatherConverter = WeatherConverter() //Nos genera error
+    private let weatherConverter = WeatherConverter() //Nos genera error
     
     //MARK: - View Life
     override func viewDidLoad() {
@@ -64,8 +64,8 @@ class WeatherViewController: UIViewController {
     
     //MARK: - Functions
     func getWeather(withUserLocation userLocation : CLLocation) {
-        weatherViewModel.getWeather(withLocation: userLocation, onSuccess: { (weatherValues) in
-            self.currentWeather = weatherValues
+        weatherViewModel.getWeather(withLocation: userLocation, onSuccess: { (weatherData) in
+            self.currentWeather = weatherData
             self.getCityName(withUserLocation: userLocation)
             self.modifyOutletValuesToShowWeatherValues()
         }, onFailure: { error in
@@ -77,8 +77,7 @@ class WeatherViewController: UIViewController {
     func getCityName(withUserLocation location: CLLocation) {
         weatherViewModel.getCityName(byUserLocation: location, onSucces: { (city) in
             self.setLocationLabel(usingCityName: city)
-        }, onFailure: { (error) in
-            //self.setLocationLabelError(withErrorMessage: error.message)  
+        }, onFailure: { (error) in          
             self.setLocationLabel(usingCityName: error.message)
         })
     }
@@ -97,9 +96,9 @@ class WeatherViewController: UIViewController {
         DispatchQueue.main.async {
             if let weather = self.currentWeather {
                 
-                let maxTemperature = self.mustShowFahrenheit ? "\(weather.maxTemperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.maxTemperature)) ºC"
-                let minTemperature = self.mustShowFahrenheit ? "\(weather.minTemperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.minTemperature)) ºC"
-                let temperature = self.mustShowFahrenheit ? "\(weather.temperature) ºF" : "\(WeatherConverter.convertToCelsius(fromFarenheit: weather.temperature)) ºC"
+                let maxTemperature = self.mustShowFahrenheit ? "\(weather.maxTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: weather.maxTemperature)) ºC"
+                let minTemperature = self.mustShowFahrenheit ? "\(weather.minTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: weather.minTemperature)) ºC"
+                let temperature = self.mustShowFahrenheit ? "\(weather.temperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: weather.temperature)) ºC"
                 
                 self.labelMaxTemperature.text = maxTemperature
                 self.labelMinTemperature.text = minTemperature
@@ -177,6 +176,8 @@ extension WeatherViewController : CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             modifyOutletValuesForLoadingView()
             getWeather(withUserLocation : location)
+        }else {
+            modifyOutletValuesForErrorMessage(errorMessage: StringValues.stringLocationAccessError)
         }
     }
     
@@ -189,8 +190,18 @@ extension WeatherViewController : CLLocationManagerDelegate {
         }
     }
     
-    private func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         modifyOutletValuesForErrorMessage(errorMessage: StringValues.stringLocationAccessError)
     }
-    
 }
+
+
+
+
+
+
+
+
+
+
+

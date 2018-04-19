@@ -7,7 +7,7 @@
 //
 
 import Foundation
-struct Error {
+struct WeatherError {
     let code : Int
     let message : String
 }

@@ -11,7 +11,7 @@ import CoreLocation
 
 struct WeatherService {
 
-    func getWeather(withLocation location: CLLocation, onSuccess: @escaping (_ jsonObject: [String : Any])-> Void, onFailure: @escaping(_ error : Error)-> Void){
+    func getWeather(withLocation location: CLLocation, onSuccess: @escaping (_ jsonObject: [String : Any])-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
         
         let latitude = location.coordinate.latitude as Double
         let longitude = location.coordinate.longitude as Double
@@ -20,7 +20,7 @@ struct WeatherService {
         print("URL: " + urlString) 
         
         guard let weatherURL = URL(string: urlString) else {
-            let error = Error(code: 404, message: StringValues.stringUnableToConnectToServer)
+            let error = WeatherError(code: 404, message: StringValues.stringUnableToConnectToServer)
             return onFailure(error)
         }
         
@@ -28,12 +28,12 @@ struct WeatherService {
             
             if let error = error {
                 print("Error:\n\(error)")
-                let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
                 onFailure(error)
             } else {
                 
                 guard let data = dataResponse else {
-                    let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
                     return onFailure(error)
                 }
                 
@@ -43,7 +43,7 @@ struct WeatherService {
                 
                 guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any] else {
                     print("Error: did not receive data")
-                    let error = Error(code: 404, message: StringValues.stringUnableToFindTemperature)
+                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
                     return onFailure(error)
                 }
                 
