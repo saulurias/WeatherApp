@@ -1,24 +1,23 @@
 //
-//  Country.swift
+//  Forecast.swift
 //  WeatherNearsoft
 //
-//  Created by saul ulises urias guzmàn on 26/03/18.
+//  Created by saul ulises urias guzmàn on 21/04/18.
 //  Copyright © 2018 saul ulises urias guzmàn. All rights reserved.
 //
 
 import Foundation
-struct Weather {
-    let countryName: String
+
+struct Forecast {
+    let date: String
     let maxTemperature: Double
     let minTemperature: Double
-    let temperature: Double
     
-    init?(jsonObject : [String : Any]) {
-        
-        if let countryDictionary = jsonObject["sys"] as? [String : Any] {
-            self.countryName = countryDictionary["country"] as? String ?? ""
+    init?(jsonObject : [String : Any]) {        
+        if let jsonDate = jsonObject["dt_txt"] as? String {
+            self.date = jsonDate
         }else {
-            self.countryName = "Country not found."
+            self.date = "Date not found"
         }
         
         guard let jsonWeather = jsonObject["main"] as? [String : Any] else {
@@ -36,12 +35,6 @@ struct Weather {
         }else {
             self.minTemperature = 0.0
         }
-        
-        if let jsonTemp = jsonWeather["temp"] as? Double {
-            self.temperature = jsonTemp
-        }else {
-            self.temperature = 0.0
-        }
     }
+    
 }
-

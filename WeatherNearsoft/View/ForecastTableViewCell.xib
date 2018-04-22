@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="63" id="KGk-i7-Jjw" customClass="ForecastTableViewCell" customModule="WeatherNearsoft" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="62.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G0E-Lg-eYX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="62.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCj-EX-uWk">
+                                <rect key="frame" x="8" y="21" width="114" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="114" id="iwF-vR-AhF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUc-tu-JWZ">
+                                <rect key="frame" x="127" y="21" width="175.5" height="21"/>
+                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="aUc-tu-JWZ" secondAttribute="bottom" constant="20.5" id="Ccv-fY-ecu"/>
+                            <constraint firstItem="aUc-tu-JWZ" firstAttribute="top" secondItem="G0E-Lg-eYX" secondAttribute="top" constant="21" id="DJP-f4-Gzf"/>
+                            <constraint firstAttribute="bottom" secondItem="HCj-EX-uWk" secondAttribute="bottom" constant="20.5" id="HHN-We-G4A"/>
+                            <constraint firstAttribute="trailing" secondItem="aUc-tu-JWZ" secondAttribute="trailing" constant="17.5" id="LFY-CH-PEI"/>
+                            <constraint firstItem="HCj-EX-uWk" firstAttribute="top" secondItem="G0E-Lg-eYX" secondAttribute="top" constant="21" id="UAt-6T-uAf"/>
+                            <constraint firstItem="HCj-EX-uWk" firstAttribute="leading" secondItem="G0E-Lg-eYX" secondAttribute="leading" constant="8" id="ZlE-u2-yeR"/>
+                            <constraint firstItem="aUc-tu-JWZ" firstAttribute="leading" secondItem="HCj-EX-uWk" secondAttribute="trailing" constant="5" id="ryE-Yl-T1W"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="G0E-Lg-eYX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="B5i-Af-FuA"/>
+                    <constraint firstItem="G0E-Lg-eYX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="CoB-sz-dju"/>
+                    <constraint firstAttribute="trailing" secondItem="G0E-Lg-eYX" secondAttribute="trailing" id="YrQ-GZ-EfV"/>
+                    <constraint firstAttribute="bottom" secondItem="G0E-Lg-eYX" secondAttribute="bottom" id="tyh-mA-liN"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="dayLabelName" destination="HCj-EX-uWk" id="S8g-tV-aBZ"/>
+                <outlet property="temperatureLabel" destination="aUc-tu-JWZ" id="mUf-Jh-7O6"/>
+            </connections>
+            <point key="canvasLocation" x="25" y="61.5"/>
+        </tableViewCell>
+    </objects>
+</document>

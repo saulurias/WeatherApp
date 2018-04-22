@@ -53,5 +53,51 @@ struct WeatherService {
         }
         dataTask.resume()
     }
+    
+    
+    func getForecast(withLocation location: CLLocation, onSuccess: @escaping (_ jsonObject: [String : Any])-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
+        
+        let latitude = location.coordinate.latitude as Double
+        let longitude = location.coordinate.longitude as Double
+        let urlString = "\(APIManager.baseUrl)/forecast?lat=\(latitude)&lon=\(longitude)&units=imperial\(APIManager.apiKey)"
+        
+        print("URL: " + urlString)
+        
+        guard let weatherURL = URL(string: urlString) else {
+            let error = WeatherError(code: 404, message: StringValues.stringUnableToConnectToServer)
+            return onFailure(error)
+        }
+        
+        let dataTask = APIManager.session.dataTask(with: weatherURL) { (dataResponse, response, error) in
+            
+            if let error = error {
+                print("Error:\n\(error)")
+                let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
+                onFailure(error)
+            } else {
+                
+                guard let data = dataResponse else {
+                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
+                    return onFailure(error)
+                }
+                
+                let dataString = String(data: data, encoding: String.Encoding.utf8)
+                
+                print("All the forecast data:\n\(dataString!)")
+                
+                guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any] else {
+                    print("Error: did not receive data")
+                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
+                    return onFailure(error)
+                }
+                
+                onSuccess(jsonObject!)
+                
+            }
+        }
+        dataTask.resume()
+    }
+    
+    
 }
 

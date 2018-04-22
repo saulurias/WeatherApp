@@ -10,6 +10,7 @@ import Foundation
 
 struct StringValues {
     static let stringUnableToFindTemperature = "Unable to find temperature"
+    static let stringUnableToFindForecast = "Unable to find forecast"
     static let stringUnableToConnectToServer = "Unable to connect to the server"
     static let stringLocationAuthorizationNeeded = "Location Authorization Needed"
     static let stringCityNotFound = "City not found"
