@@ -12,6 +12,7 @@ import CoreLocation
 class ForecastViewController: UIViewController {
     //MARK: - View Life
     @IBOutlet weak var forecastTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     //MARK: - Variables And Constants
     private let forecastViewModel = ForecastViewModel()
@@ -24,11 +25,10 @@ class ForecastViewController: UIViewController {
     //MARK: - View Life
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Forecast"
+        activityIndicator.startAnimating()
         setupForecastTableView()
-        
-        if userLocation != nil {
-            getForecast()
-        }
+        validateUserLocationToGetWeather()
     }
     
     //MARK: - Functions
@@ -41,10 +41,33 @@ class ForecastViewController: UIViewController {
             self.forecastArray = forecastData
             DispatchQueue.main.async {
                 self.forecastTableView.reloadData()
+                self.activityIndicator.stopAnimating()
             }
         }, onFailure: { error in
-            
+            self.showForecastNotFoundAlert()
+            self.activityIndicator.stopAnimating()
         })
+    }
+    
+    func validateUserLocationToGetWeather(){
+        if userLocation != nil {
+            getForecast()
+        }else {
+            self.showForecastNotFoundAlert()
+            activityIndicator.stopAnimating()
+        }
+    }
+    
+    func showForecastNotFoundAlert() {
+        let alertController = UIAlertController(title: StringValues.stringUnableToFindForecast, message: "", preferredStyle: .alert)
+        
+        let goBackAction = UIAlertAction(title: "Go Back", style: .default) { (action) in
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        alertController.addAction(goBackAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -57,14 +80,16 @@ extension ForecastViewController:  UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let forecastCell = Bundle.main.loadNibNamed("ForecastTableViewCell", owner: self, options: nil)?.first as! ForecastTableViewCell
         
-        let forecast = forecastArray[indexPath.row]
-        
+        let forecast = forecastArray[indexPath.row]        
         let maxTemperature = self.mustShowFahrenheit ? "\(forecast.maxTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: forecast.maxTemperature)) ºC"
         let minTemperature = self.mustShowFahrenheit ? "\(forecast.minTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: forecast.minTemperature)) ºC"
         
         forecastCell.dayLabelName.text = "\(dateConverter.getDayName(withStringDate: forecast.date))"
-        forecastCell.temperatureLabel.text = "\(maxTemperature) / \(minTemperature)"
+        forecastCell.temperatureLabel.text = "\(minTemperature) / \(maxTemperature)"
+        forecastCell.iconImageView.downloadIcon(withUrlIconString: forecast.urlIcon)
         
         return forecastCell
     }
 }
+
+

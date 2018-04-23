@@ -16,7 +16,11 @@ class DateConverter {
         guard let date = dateFormatter.date(from: stringDate) else {
             return "Day not found"
         }
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "hh:mm a"
+        let time = timeFormatter.string(from: date)
 
-        return "\(dateFormatter.weekdaySymbols[Calendar.current.component(.weekday, from: date)])"
+        return "\(dateFormatter.weekdaySymbols[Calendar.current.component(.weekday, from: date)-1]) - \(time)"
     }
 }

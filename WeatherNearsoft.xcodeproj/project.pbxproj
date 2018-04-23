@@ -15,6 +15,7 @@
 		B41809AA2069996A002CC520 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809A92069996A002CC520 /* WeatherService.swift */; };
 		B41809AC2069997D002CC520 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809AB2069997D002CC520 /* APIManager.swift */; };
 		B41809B02069A72D002CC520 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41809AF2069A72D002CC520 /* Weather.swift */; };
+		B42745AC208E559600EF9C12 /* UIImageView + DownloadIconFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42745AB208E559600EF9C12 /* UIImageView + DownloadIconFromUrl.swift */; };
 		B42B3EC12085480F007FB245 /* StringValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42B3EC02085480F007FB245 /* StringValues.swift */; };
 		B4685326208C2C5E00C7430E /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4685324208C2C5E00C7430E /* ForecastTableViewCell.swift */; };
 		B4685327208C2C5E00C7430E /* ForecastTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4685325208C2C5E00C7430E /* ForecastTableViewCell.xib */; };
@@ -40,6 +41,7 @@
 		B41809AF2069A72D002CC520 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		B41809B22069ACFE002CC520 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		B41809B32069ACFE002CC520 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		B42745AB208E559600EF9C12 /* UIImageView + DownloadIconFromUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + DownloadIconFromUrl.swift"; sourceTree = "<group>"; };
 		B42B3EC02085480F007FB245 /* StringValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringValues.swift; sourceTree = "<group>"; };
 		B4685324208C2C5E00C7430E /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 		B4685325208C2C5E00C7430E /* ForecastTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastTableViewCell.xib; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				B47935EB206DF375001C630A /* WeatherConverter.swift */,
 				B4685330208C45D400C7430E /* DateConverter.swift */,
 				B41809B12069ACE4002CC520 /* Fonts */,
+				B42745AB208E559600EF9C12 /* UIImageView + DownloadIconFromUrl.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			files = (
 				B4685331208C45D400C7430E /* DateConverter.swift in Sources */,
 				B4E19A682072A9C100F5DB3D /* WeatherError.swift in Sources */,
+				B42745AC208E559600EF9C12 /* UIImageView + DownloadIconFromUrl.swift in Sources */,
 				B41809AC2069997D002CC520 /* APIManager.swift in Sources */,
 				B47935EC206DF375001C630A /* WeatherConverter.swift in Sources */,
 				B47935EF206DF636001C630A /* WeatherViewModel.swift in Sources */,
