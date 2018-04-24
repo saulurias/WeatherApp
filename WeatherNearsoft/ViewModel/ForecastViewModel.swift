@@ -38,11 +38,16 @@ struct ForecastViewModel {
                 let day = Calendar.current.component(.weekday, from: forecast.date)
                 
                 if !daysFound.contains(day) && daysFound.count < 5 {
-                    let filteredArray = forecastArray.filter({(Calendar.current.component(.weekday, from: $0.date)) == day})
-                    let maxValues = filteredArray.map({$0.maxTemperature})
-                    let minValues = filteredArray.map({$0.minTemperature})
-                    let maxTemperatureAverage = maxValues.reduce(0,+)/Double(maxValues.count)
-                    let minTemperatureAverage = minValues.reduce(0,+)/Double(minValues.count)
+                    let filteredArray = forecastArray.filter({(Calendar.current.component(.weekday, from: $0.date)) == day}) //Array by current day in for
+                    let maxTemperatureValues = filteredArray.map({$0.maxTemperature})
+                    let minTemperatureValues = filteredArray.map({$0.minTemperature})
+                    var maxTemperatureAverage = (maxTemperatureValues.reduce(0,+)/Double(maxTemperatureValues.count))
+                    var minTemperatureAverage = (minTemperatureValues.reduce(0,+)/Double(minTemperatureValues.count))
+                    
+                    //Rounding to two decimals
+                    let divisor = pow(10.0, Double(2))
+                    maxTemperatureAverage = ((maxTemperatureAverage * divisor).rounded() / divisor)
+                    minTemperatureAverage = ((minTemperatureAverage * divisor).rounded() / divisor)
                     
                     forecast.maxTemperature = maxTemperatureAverage
                     forecast.minTemperature = minTemperatureAverage
