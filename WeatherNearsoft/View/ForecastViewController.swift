@@ -84,7 +84,7 @@ extension ForecastViewController:  UITableViewDataSource {
         let maxTemperature = self.mustShowFahrenheit ? "\(forecast.maxTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: forecast.maxTemperature)) ºC"
         let minTemperature = self.mustShowFahrenheit ? "\(forecast.minTemperature) ºF" : "\(self.weatherConverter.convertToCelsius(fromFarenheit: forecast.minTemperature)) ºC"
         
-        forecastCell.dayLabelName.text = "\(dateConverter.getDayName(withStringDate: forecast.date))"
+        forecastCell.dayLabelName.text = "\(dateConverter.getDayName(withDate: forecast.date))"
         forecastCell.temperatureLabel.text = "\(minTemperature) / \(maxTemperature)"
         forecastCell.iconImageView.downloadIcon(withUrlIconString: forecast.urlIcon)
         

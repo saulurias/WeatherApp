@@ -21,6 +21,7 @@ struct ForecastViewModel {
                 return onFailure(error)
             }
             
+            //Getting the forecast array from the json response
             var forecastArray: [Forecast] = []
             
             for jsonForecast in jsonForecastArray {
@@ -29,8 +30,35 @@ struct ForecastViewModel {
                 }
             }
             
-            if forecastArray.count > 0 {
-                onSuccess(forecastArray)
+            //Getting temperature average storing a forecast by day
+            var forecastFound: [Forecast] = []
+            var daysFound: [Int] = []
+            
+            for var forecast in forecastArray {
+                let day = Calendar.current.component(.weekday, from: forecast.date)
+                
+                if !daysFound.contains(day) && daysFound.count < 5 {
+                    let filteredArray = forecastArray.filter({(Calendar.current.component(.weekday, from: $0.date)) == day})
+                    let maxValues = filteredArray.map({$0.maxTemperature})
+                    let minValues = filteredArray.map({$0.minTemperature})
+                    let maxTemperatureAverage = maxValues.reduce(0,+)/Double(maxValues.count)
+                    let minTemperatureAverage = minValues.reduce(0,+)/Double(minValues.count)
+                    
+                    forecast.maxTemperature = maxTemperatureAverage
+                    forecast.minTemperature = minTemperatureAverage
+                    
+                    if daysFound.count == 0 {
+                        daysFound.append(day)
+                        forecastFound.append(forecast)
+                    }else {
+                        daysFound.append(day)
+                        forecastFound.append(forecast)
+                    }
+                }
+            }
+            
+            if forecastFound.count > 0 {
+                onSuccess(forecastFound)
             }else {
                 let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
                 return onFailure(error)

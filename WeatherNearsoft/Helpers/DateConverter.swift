@@ -8,19 +8,8 @@
 
 import Foundation
 class DateConverter {
-    func getDayName(withStringDate stringDate: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd H:mm:ss"
-        dateFormatter.locale = Locale(identifier: "en_GB")
-        
-        guard let date = dateFormatter.date(from: stringDate) else {
-            return "Day not found"
-        }
-        
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "hh:mm a"
-        let time = timeFormatter.string(from: date)
-
-        return "\(dateFormatter.weekdaySymbols[Calendar.current.component(.weekday, from: date)-1]) - \(time)"
+    func getDayName(withDate date: Date) -> String {
+        let dateFormatter = DateFormatter()      
+        return "\(dateFormatter.weekdaySymbols[Calendar.current.component(.weekday, from: date)-1])"
     }
 }

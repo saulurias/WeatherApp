@@ -111,7 +111,6 @@
 		B41809A820699952002CC520 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B4685323208C2C4800C7430E /* Forecast */,
 				B41809AE2069A719002CC520 /* Weather */,
 				B41809AD2069A710002CC520 /* Services */,
 			);
@@ -145,13 +144,6 @@
 				B41809B32069ACFE002CC520 /* Roboto-Regular.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		B4685323208C2C4800C7430E /* Forecast */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Forecast;
 			sourceTree = "<group>";
 		};
 		B47935ED206DF5C4001C630A /* ViewModel */ = {

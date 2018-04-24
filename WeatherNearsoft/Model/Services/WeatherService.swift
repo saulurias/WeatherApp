@@ -96,8 +96,6 @@ struct WeatherService {
             }
         }
         dataTask.resume()
-    }
-    
-    
+    }    
 }
 

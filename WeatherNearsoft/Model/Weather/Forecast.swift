@@ -9,16 +9,26 @@
 import Foundation
 
 struct Forecast {
-    let date: String
-    let maxTemperature: Double
-    let minTemperature: Double
+    let date: Date
+    var maxTemperature: Double
+    var minTemperature: Double
     let urlIcon: String
     
     init?(jsonObject : [String : Any]) {        
-        if let jsonDate = jsonObject["dt_txt"] as? String {
-            self.date = jsonDate
+        if let stringDate = jsonObject["dt_txt"] as? String {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd H:mm:ss"
+            dateFormatter.locale = Locale(identifier: "en_GB")
+            
+            guard let dateFromString = dateFormatter.date(from: stringDate) else {
+                return nil
+            }
+            
+            self.date = dateFromString
+            
         }else {
-            self.date = "Date not found"
+            return nil
         }
         
         guard let jsonWeather = jsonObject["main"] as? [String : Any] else {
