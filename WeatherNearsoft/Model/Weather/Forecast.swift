@@ -8,15 +8,14 @@
 
 import Foundation
 
-struct Forecast {
-    let date: Date
-    var maxTemperature: Double
-    var minTemperature: Double
-    let urlIcon: String
+struct Forecast: MaxAndMinTemperatureProtocol, DateProtocol, URLIconProtocol {
+    var date: Date
+    var maxTemperature: Int
+    var minTemperature: Int
+    var urlIcon: String
     
     init?(jsonObject : [String : Any]) {        
         if let stringDate = jsonObject["dt_txt"] as? String {
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd H:mm:ss"
             dateFormatter.locale = Locale(identifier: "en_GB")
@@ -36,15 +35,15 @@ struct Forecast {
         }
         
         if let jsonMaxTemp = jsonWeather["temp_max"] as? Double {
-            self.maxTemperature = jsonMaxTemp
+            self.maxTemperature = Int(jsonMaxTemp)
         }else {
-            self.maxTemperature = 0.0
+            return nil
         }
         
         if let jsonMinTemp = jsonWeather["temp_min"] as? Double {
-            self.minTemperature = jsonMinTemp
+            self.minTemperature = Int(jsonMinTemp)
         }else {
-            self.minTemperature = 0.0
+            return nil
         }
         
         //http://openweathermap.org/img/w/code.png
@@ -57,7 +56,6 @@ struct Forecast {
         }else {
             self.urlIcon = ""
         }
-        
     }
     
 }

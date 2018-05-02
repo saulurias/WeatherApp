@@ -82,7 +82,6 @@ class WeatherViewController: UIViewController {
         })
     }
     
-    //FIXME: - Buscar solución lógica para la situación en la que no se encontro la ciudad
     func getCityName(withUserLocation location: CLLocation) {
         weatherViewModel.getCityName(byUserLocation: location, onSucces: { (city) in
             self.setLocationLabel(usingCityName: city)

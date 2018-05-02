@@ -26,6 +26,7 @@
 		B47935EC206DF375001C630A /* WeatherConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47935EB206DF375001C630A /* WeatherConverter.swift */; };
 		B47935EF206DF636001C630A /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47935EE206DF636001C630A /* WeatherViewModel.swift */; };
 		B4E19A682072A9C100F5DB3D /* WeatherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E19A672072A9C100F5DB3D /* WeatherError.swift */; };
+		F452F7E4209A1C7400AAD334 /* WeatherProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452F7E3209A1C7400AAD334 /* WeatherProtocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		B47935EB206DF375001C630A /* WeatherConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConverter.swift; sourceTree = "<group>"; };
 		B47935EE206DF636001C630A /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		B4E19A672072A9C100F5DB3D /* WeatherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherError.swift; sourceTree = "<group>"; };
+		F452F7E3209A1C7400AAD334 /* WeatherProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProtocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		B41809AE2069A719002CC520 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				F452F7E3209A1C7400AAD334 /* WeatherProtocols.swift */,
 				B41809AF2069A72D002CC520 /* Weather.swift */,
 				B4E19A672072A9C100F5DB3D /* WeatherError.swift */,
 				B42B3EC02085480F007FB245 /* StringValues.swift */,
@@ -250,6 +253,7 @@
 				B41809AC2069997D002CC520 /* APIManager.swift in Sources */,
 				B47935EC206DF375001C630A /* WeatherConverter.swift in Sources */,
 				B47935EF206DF636001C630A /* WeatherViewModel.swift in Sources */,
+				F452F7E4209A1C7400AAD334 /* WeatherProtocols.swift in Sources */,
 				B468532D208C3BFE00C7430E /* Forecast.swift in Sources */,
 				B41809972069993A002CC520 /* WeatherViewController.swift in Sources */,
 				B41809952069993A002CC520 /* AppDelegate.swift in Sources */,

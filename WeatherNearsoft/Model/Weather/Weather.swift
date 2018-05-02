@@ -7,11 +7,11 @@
 //
 
 import Foundation
-struct Weather {
-    let countryName: String
-    let maxTemperature: Double
-    let minTemperature: Double
-    let temperature: Double
+struct Weather: TemperatureProtocol, MaxAndMinTemperatureProtocol, CountryProtocol {
+    var countryName: String
+    var maxTemperature: Int
+    var minTemperature: Int
+    var temperature: Int
     
     init?(jsonObject : [String : Any]) {
         
@@ -26,21 +26,21 @@ struct Weather {
         }
         
         if let jsonMaxTemp = jsonWeather["temp_max"] as? Double {
-            self.maxTemperature = jsonMaxTemp
+            self.maxTemperature = Int(jsonMaxTemp)
         }else {
-            self.maxTemperature = 0.0
+            return nil
         }
         
         if let jsonMinTemp = jsonWeather["temp_min"] as? Double {
-            self.minTemperature = jsonMinTemp
+            self.minTemperature = Int(jsonMinTemp)
         }else {
-            self.minTemperature = 0.0
+            return nil
         }
         
         if let jsonTemp = jsonWeather["temp"] as? Double {
-            self.temperature = jsonTemp
+            self.temperature = Int(jsonTemp)
         }else {
-            self.temperature = 0.0
+            return nil
         }
     }
 }

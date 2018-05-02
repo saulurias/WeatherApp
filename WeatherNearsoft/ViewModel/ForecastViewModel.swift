@@ -23,7 +23,6 @@ struct ForecastViewModel {
             
             //Getting the forecast array from the json response
             var forecastArray: [Forecast] = []
-            
             for jsonForecast in jsonForecastArray {
                 if let forecast = Forecast(jsonObject: jsonForecast) {
                     forecastArray.append(forecast)
@@ -31,36 +30,7 @@ struct ForecastViewModel {
             }
             
             //Getting temperature average storing a forecast by day
-            var forecastFound: [Forecast] = []
-            var daysFound: [Int] = []
-            
-            for var forecast in forecastArray {
-                let day = Calendar.current.component(.weekday, from: forecast.date)
-                
-                if !daysFound.contains(day) && daysFound.count < 5 {
-                    let filteredArray = forecastArray.filter({(Calendar.current.component(.weekday, from: $0.date)) == day}) //Array by current day in for
-                    let maxTemperatureValues = filteredArray.map({$0.maxTemperature})
-                    let minTemperatureValues = filteredArray.map({$0.minTemperature})
-                    var maxTemperatureAverage = (maxTemperatureValues.reduce(0,+)/Double(maxTemperatureValues.count))
-                    var minTemperatureAverage = (minTemperatureValues.reduce(0,+)/Double(minTemperatureValues.count))
-                    
-                    //Rounding to two decimals
-                    let divisor = pow(10.0, Double(2))
-                    maxTemperatureAverage = ((maxTemperatureAverage * divisor).rounded() / divisor)
-                    minTemperatureAverage = ((minTemperatureAverage * divisor).rounded() / divisor)
-                    
-                    forecast.maxTemperature = maxTemperatureAverage
-                    forecast.minTemperature = minTemperatureAverage
-                    
-                    if daysFound.count == 0 {
-                        daysFound.append(day)
-                        forecastFound.append(forecast)
-                    }else {
-                        daysFound.append(day)
-                        forecastFound.append(forecast)
-                    }
-                }
-            }
+            let forecastFound: [Forecast] = self.getForecastArrayWithAverageTemperatureByDay(withForecastArray: forecastArray)
             
             if forecastFound.count > 0 {
                 onSuccess(forecastFound)
@@ -75,5 +45,33 @@ struct ForecastViewModel {
     }
     
     
-    
+    private func getForecastArrayWithAverageTemperatureByDay(withForecastArray forecastArray: [Forecast]) -> [Forecast] {
+        var daysFound: [Int] = []
+        var forecastFound: [Forecast] = []
+        
+        for var forecast in forecastArray {
+            let day = Calendar.current.component(.weekday, from: forecast.date)
+
+            if !daysFound.contains(day) && daysFound.count < 5 {
+                let filteredArray = forecastArray.filter({(Calendar.current.component(.weekday, from: $0.date)) == day}) //Array by current day in for
+                let maxTemperatureValues = filteredArray.map({$0.maxTemperature})
+                let minTemperatureValues = filteredArray.map({$0.minTemperature})
+                let maxTemperatureAverage = (maxTemperatureValues.reduce(0,+)/maxTemperatureValues.count)
+                let minTemperatureAverage = (minTemperatureValues.reduce(0,+)/minTemperatureValues.count)
+                
+                forecast.maxTemperature = Int(maxTemperatureAverage)
+                forecast.minTemperature = Int(minTemperatureAverage)
+                
+                if daysFound.count == 0 {
+                    daysFound.append(day)
+                    forecastFound.append(forecast)
+                }else {
+                    daysFound.append(day)
+                    forecastFound.append(forecast)
+                }
+            }
+        }
+        
+        return forecastFound
+    }
 }
