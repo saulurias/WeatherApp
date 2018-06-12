@@ -24,13 +24,14 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var switchButton: UISwitch!
     
     //MARK: - Variables And Constants
-    private var currentWeather : Weather?
+    private var currentWeather: Weather?
     private var mustShowFahrenheit = true
     private let locationManager = CLLocationManager()
     private let weatherViewModel = WeatherViewModel()
+    private let locationViewModel = LocationViewModel()
     private let weatherConverter = WeatherConverter()
     private let segueToForecast = "segueToForecast"
-    private var userLocation : CLLocation? = nil
+    private var userLocation: CLLocation? = nil
     
     //MARK: - View Life
     override func viewDidLoad() {
@@ -45,7 +46,7 @@ class WeatherViewController: UIViewController {
     
     //MARK: - Actions
     @IBAction func buttonRefreshPressed(_ sender: Any) {
-        if weatherViewModel.locationAuthorized() {
+        if locationViewModel.isLocationAuthorized() {
             locationManager.startUpdatingLocation()
             modifyOutletValuesForLoadingView()
         }else {
@@ -59,7 +60,6 @@ class WeatherViewController: UIViewController {
         }else {
             mustShowFahrenheit = true
         }
-        
         modifyOutletValuesToShowWeatherValues()
     }
     
@@ -72,7 +72,7 @@ class WeatherViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func getWeather(withUserLocation userLocation : CLLocation) {
+    private func getWeather(withUserLocation userLocation: CLLocation) {
         weatherViewModel.getWeather(withLocation: userLocation, onSuccess: { (weatherData) in
             self.currentWeather = weatherData
             self.getCityName(withUserLocation: userLocation)
@@ -82,24 +82,24 @@ class WeatherViewController: UIViewController {
         })
     }
     
-    func getCityName(withUserLocation location: CLLocation) {
-        weatherViewModel.getCityName(byUserLocation: location, onSucces: { (city) in
+    private func getCityName(withUserLocation location: CLLocation) {
+        locationViewModel.getCityName(byUserLocation: location, onSucces: { (city) in
             self.setLocationLabel(usingCityName: city)
         }, onFailure: { (error) in          
             self.setLocationLabel(usingCityName: error.message)
         })
     }
     
-    func setLocationLabel(usingCityName city : String){
+    private func setLocationLabel(usingCityName city: String){
         let country = currentWeather?.countryName ?? "Country not found."
         locationLabel.text = "\(city), \(country)"
     }
     
-    func setLocationLabelError(withErrorMessage errorMessage : String) {
+    private func setLocationLabelError(withErrorMessage errorMessage: String) {
         locationLabel.text = errorMessage
     }
     
-    func modifyOutletValuesToShowWeatherValues(){
+    private func modifyOutletValuesToShowWeatherValues(){
         //Printing Values
         DispatchQueue.main.async {
             if let weather = self.currentWeather {
@@ -119,7 +119,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    func modifyOutletValuesForErrorMessage(errorMessage : String){
+    private func modifyOutletValuesForErrorMessage(errorMessage: String){
         DispatchQueue.main.async {
             self.temperatureLabel.text = errorMessage
             self.maxTemperatureLabel.text = ""
@@ -133,7 +133,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    func modifyOutletValuesForLoadingView(){
+    private func modifyOutletValuesForLoadingView(){
         DispatchQueue.main.async {
             self.activityIndicator.startAnimating()
             self.temperatureLabel.text = ""
@@ -147,7 +147,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    func showLocationDisabledAlert() {
+    private func showLocationDisabledAlert() {
         let alertController = UIAlertController(title: StringValues.stringLocationAccessDisabled, message: StringValues.stringLocationAuthorizationNeeded, preferredStyle: .alert)
         
         let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
@@ -161,11 +161,11 @@ class WeatherViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func setLabelLocationAthorizationNeeded(){
+    private func setLabelLocationAthorizationNeeded(){
         temperatureLabel.text = StringValues.stringLocationAuthorizationNeeded
     }
     
-    func setupLocationManager(){
+    private func setupLocationManager(){
         //Request when the App is open
         locationManager.requestWhenInUseAuthorization()
         
@@ -191,13 +191,13 @@ class WeatherViewController: UIViewController {
 }
 
 //MARK: - CLLocation Manager Delegate
-extension WeatherViewController : CLLocationManagerDelegate {
+extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             locationManager.stopUpdatingLocation()
             modifyOutletValuesForLoadingView()
             userLocation = location
-            getWeather(withUserLocation : userLocation!)
+            getWeather(withUserLocation: userLocation!)
         }else {
             modifyOutletValuesForErrorMessage(errorMessage: StringValues.stringLocationAccessError)
         }

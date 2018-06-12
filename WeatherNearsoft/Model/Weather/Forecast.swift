@@ -14,7 +14,23 @@ struct Forecast: MaxAndMinTemperatureProtocol, DateProtocol, URLIconProtocol {
     var minTemperature: Int
     var urlIcon: String
     
-    init?(jsonObject : [String : Any]) {        
+    init?(jsonObject: [String: Any]) {
+        
+        guard let jsonWeather = jsonObject["main"] as? [String: Any] else {
+            return nil
+        }
+        
+        guard let jsonMaxTemp = jsonWeather["temp_max"] as? Double else {
+            return nil
+        }
+        
+        guard let jsonMinTemp = jsonWeather["temp_min"] as? Double else {
+            return nil
+        }
+        
+        self.maxTemperature = Int(jsonMaxTemp)
+        self.minTemperature = Int(jsonMinTemp)
+        
         if let stringDate = jsonObject["dt_txt"] as? String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd H:mm:ss"
@@ -30,32 +46,12 @@ struct Forecast: MaxAndMinTemperatureProtocol, DateProtocol, URLIconProtocol {
             return nil
         }
         
-        guard let jsonWeather = jsonObject["main"] as? [String : Any] else {
-            return nil
-        }
-        
-        if let jsonMaxTemp = jsonWeather["temp_max"] as? Double {
-            self.maxTemperature = Int(jsonMaxTemp)
-        }else {
-            return nil
-        }
-        
-        if let jsonMinTemp = jsonWeather["temp_min"] as? Double {
-            self.minTemperature = Int(jsonMinTemp)
-        }else {
-            return nil
-        }
-        
         //http://openweathermap.org/img/w/code.png
-        if let jsonIconData = jsonObject["weather"] as? [[String : Any]] {
-            if let iconCode = jsonIconData[0]["icon"] as? String {
-                self.urlIcon = "http://openweathermap.org/img/w/\(iconCode).png"
-            }else {
-                self.urlIcon = ""
-            }
+        if let jsonIconData = jsonObject["weather"] as? [[String: Any]] {
+            let iconCode = jsonIconData[0]["icon"] as! String
+            self.urlIcon = "http://openweathermap.org/img/w/\(iconCode).png"
         }else {
             self.urlIcon = ""
         }
     }
-    
 }

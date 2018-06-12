@@ -11,39 +11,43 @@ import CoreLocation
 
 struct ForecastViewModel {
     
-    let weatherService = WeatherService()
+    var weatherService: WeatherServiceProtocol
     
-    func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ forecastArray: [Forecast])-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
-        weatherService.getForecast(withLocation: location, onSuccess: { (jsonObject) in
+    init(weatherService: WeatherServiceProtocol = WeatherService()) {
+        self.weatherService = weatherService
+    }
+    
+    func getForecast(withLocation location: CLLocation,
+                    onSuccess: @escaping (_ forecastArray: [Forecast])-> Void,
+                    onFailure: @escaping(_ error: WeatherError)-> Void){
+        weatherService.getForecast(withLocation: location,
+                                   onSuccess: { (jsonObject) in
             
-            guard let jsonForecastArray = jsonObject["list"] as? [[String : Any]] else {
+            guard let jsonForecastArray = jsonObject["list"] as? [[String: Any]] else {
                 let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
                 return onFailure(error)
             }
             
-            //Getting the forecast array from the json response
-            var forecastArray: [Forecast] = []
-            for jsonForecast in jsonForecastArray {
-                if let forecast = Forecast(jsonObject: jsonForecast) {
-                    forecastArray.append(forecast)
-                }
-            }
-            
-            //Getting temperature average storing a forecast by day
+            let forecastArray = self.getForecastArrayFromJsonResponse(withJsonForecastArray: jsonForecastArray)            
             let forecastFound: [Forecast] = self.getForecastArrayWithAverageTemperatureByDay(withForecastArray: forecastArray)
-            
-            if forecastFound.count > 0 {
-                onSuccess(forecastFound)
-            }else {
-                let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
-                return onFailure(error)
-            }
-            
+                                    
+            onSuccess(forecastFound)
+
         }, onFailure: { (errorValue) in
             onFailure(errorValue)
         })
     }
     
+    
+    private func getForecastArrayFromJsonResponse(withJsonForecastArray jsonForecastArray: [[String: Any]]) -> [Forecast] {
+        var forecastArray: [Forecast] = []
+        for jsonForecast in jsonForecastArray {
+            if let forecast = Forecast(jsonObject: jsonForecast) {
+                forecastArray.append(forecast)
+            }
+        }
+        return forecastArray
+    }
     
     private func getForecastArrayWithAverageTemperatureByDay(withForecastArray forecastArray: [Forecast]) -> [Forecast] {
         var daysFound: [Int] = []
@@ -74,4 +78,7 @@ struct ForecastViewModel {
         
         return forecastFound
     }
+    
+    
+    
 }

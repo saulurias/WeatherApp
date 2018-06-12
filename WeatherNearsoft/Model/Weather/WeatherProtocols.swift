@@ -9,22 +9,22 @@
 import Foundation
 
 protocol MaxAndMinTemperatureProtocol {
-    var maxTemperature: Int {get}
-    var minTemperature: Int {get}
+    var maxTemperature: Int {get set}
+    var minTemperature: Int {get set}
 }
 
 protocol TemperatureProtocol {
-    var temperature: Int {get}
+    var temperature: Int {get set}
 }
 
 protocol CountryProtocol {
-    var countryName: String {get}
+    var countryName: String {get set}
 }
 
 protocol DateProtocol {
-    var date: Date {get}
+    var date: Date {get set}
 }
 
 protocol URLIconProtocol {
-    var urlIcon: String {get}
+    var urlIcon: String {get set}
 }

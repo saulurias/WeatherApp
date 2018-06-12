@@ -8,6 +8,6 @@
 
 import Foundation
 struct WeatherError {
-    let code : Int
-    let message : String
+    let code: Int
+    let message: String
 }

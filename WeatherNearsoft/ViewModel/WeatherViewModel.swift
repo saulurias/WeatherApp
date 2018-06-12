@@ -11,10 +11,18 @@ import CoreLocation
 
 struct WeatherViewModel {
     
-    let weatherService = WeatherService()
+     var weatherService: WeatherServiceProtocol
+    
+    init(weatherService: WeatherServiceProtocol = WeatherService()) {
+        self.weatherService = weatherService
+    }
 
-    func getWeather(withLocation location : CLLocation, onSuccess: @escaping (_ weather: Weather)-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
-        weatherService.getWeather(withLocation: location, onSuccess: { (jsonObject) in
+    func getWeather(withLocation location: CLLocation,
+                    onSuccess: @escaping (_ weather: Weather)-> Void,
+                    onFailure: @escaping(_ error: WeatherError)-> Void){
+        
+        weatherService.getWeather(withLocation: location,
+                                  onSuccess: { (jsonObject) in
             
             guard let weather = Weather(jsonObject: jsonObject) else {
                 let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
@@ -26,35 +34,6 @@ struct WeatherViewModel {
             onFailure(errorValue)
         })
     }
-    
-    func getCityName(byUserLocation location : CLLocation, onSucces: @escaping(_ location : String) -> Void, onFailure: @escaping(_ error: WeatherError) -> Void)  {
-        CLGeocoder().reverseGeocodeLocation(location) { (placemark, error) in
-            if error != nil {
-                let error = WeatherError(code: 404, message: StringValues.stringCityNotFound)
-                return onFailure(error)
-            }else {
-                guard let place = placemark?.first else {
-                    let error = WeatherError(code: 404, message: StringValues.stringCityNotFound)
-                    return onFailure(error)
-                }
-                
-                guard let locality = place.locality else {
-                    let error = WeatherError(code: 404, message: StringValues.stringCityNotFound)
-                    return onFailure(error)
-                }
-                
-                onSucces(locality)
-            }
-        }
-    }
-    
-    func locationAuthorized() -> Bool {
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            return true
-        }
-        return false
-    }
-    
 }
 
 

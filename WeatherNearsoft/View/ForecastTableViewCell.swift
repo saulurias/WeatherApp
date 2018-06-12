@@ -13,9 +13,5 @@ class ForecastTableViewCell: UITableViewCell {
     @IBOutlet weak var dayLabelName: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
-    
-    //MARK: - View Life
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 }
+

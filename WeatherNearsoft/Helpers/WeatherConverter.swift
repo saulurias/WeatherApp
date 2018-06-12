@@ -8,8 +8,7 @@
 
 import Foundation
 class WeatherConverter {
-    func convertToCelsius(fromFarenheit fahrenheit: Int) -> Int {
-        let celcius = 5.0 / 9.0 * (Double(fahrenheit) - 32.0) //Converting from Farenheit to Celcius
-        return (Int(celcius)) //Rounding to two decimals
+    func convertToCelsius(fromFarenheit fahrenheit: Int) -> Int {        
+        return (Int(5.0 / 9.0 * (Double(fahrenheit) - 32.0)))
     }
 }

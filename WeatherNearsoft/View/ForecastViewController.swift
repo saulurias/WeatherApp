@@ -32,12 +32,12 @@ class ForecastViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func setupForecastTableView(){
+    private func setupForecastTableView(){
         forecastTableView.dataSource = self
     }
     
-    func getForecast(){
-        forecastViewModel.getWeather(withLocation: userLocation!, onSuccess: { (forecastData) in
+    private func getForecast(){
+        forecastViewModel.getForecast(withLocation: userLocation!, onSuccess: { (forecastData) in
             self.forecastArray = forecastData
             DispatchQueue.main.async {
                 self.forecastTableView.reloadData()
@@ -49,7 +49,7 @@ class ForecastViewController: UIViewController {
         })
     }
     
-    func validateUserLocationToGetWeather(){
+    private func validateUserLocationToGetWeather(){
         if userLocation != nil {
             getForecast()
         }else {
@@ -58,7 +58,7 @@ class ForecastViewController: UIViewController {
         }
     }
     
-    func showForecastNotFoundAlert() {
+    private func showForecastNotFoundAlert() {
         let alertController = UIAlertController(title: StringValues.stringUnableToFindForecast, message: "", preferredStyle: .alert)
         
         let goBackAction = UIAlertAction(title: "Go Back", style: .default) { (action) in
@@ -86,8 +86,10 @@ extension ForecastViewController:  UITableViewDataSource {
         
         forecastCell.dayLabelName.text = "\(dateConverter.getDayName(withDate: forecast.date))"
         forecastCell.temperatureLabel.text = "\(minTemperature) / \(maxTemperature)"
-        forecastCell.iconImageView.downloadIcon(withUrlIconString: forecast.urlIcon)
-        
+        forecastCell.iconImageView.startAnimating()
+        forecastCell.iconImageView.downloadIcon(withUrlIconString: forecast.urlIcon) { _ in
+            forecastCell.imageView?.stopAnimating()
+        }
         return forecastCell
     }
 }

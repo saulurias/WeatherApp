@@ -13,35 +13,36 @@ struct Weather: TemperatureProtocol, MaxAndMinTemperatureProtocol, CountryProtoc
     var minTemperature: Int
     var temperature: Int
     
-    init?(jsonObject : [String : Any]) {
-        
-        if let countryDictionary = jsonObject["sys"] as? [String : Any] {
-            self.countryName = countryDictionary["country"] as? String ?? ""
+    init?(jsonObject: [String: Any]) {
+        if let countryDictionary = jsonObject["sys"] as? [String: Any] {
+            if let countryName = countryDictionary["country"] as? String {
+                self.countryName = countryName
+            }else {
+                self.countryName = "Country not found."
+            }
         }else {
             self.countryName = "Country not found."
         }
         
-        guard let jsonWeather = jsonObject["main"] as? [String : Any] else {
+        guard let jsonWeather = jsonObject["main"] as? [String: Any] else {
             return nil
         }
         
-        if let jsonMaxTemp = jsonWeather["temp_max"] as? Double {
-            self.maxTemperature = Int(jsonMaxTemp)
-        }else {
+        guard let jsonMaxTemp = jsonWeather["temp_max"] as? Double else {
+            return nil            
+        }
+        
+        guard let jsonMinTemp = jsonWeather["temp_min"] as? Double else {
             return nil
         }
         
-        if let jsonMinTemp = jsonWeather["temp_min"] as? Double {
-            self.minTemperature = Int(jsonMinTemp)
-        }else {
+        guard let jsonTemp = jsonWeather["temp"] as? Double else {
             return nil
         }
         
-        if let jsonTemp = jsonWeather["temp"] as? Double {
-            self.temperature = Int(jsonTemp)
-        }else {
-            return nil
-        }
+        self.maxTemperature = Int(jsonMaxTemp)
+        self.minTemperature = Int(jsonMinTemp)
+        self.temperature = Int(jsonTemp)
     }
 }
 

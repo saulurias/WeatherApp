@@ -8,94 +8,55 @@
 
 import Foundation
 import CoreLocation
+import Alamofire
 
-struct WeatherService {
-
-    func getWeather(withLocation location: CLLocation, onSuccess: @escaping (_ jsonObject: [String : Any])-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
+struct WeatherService: WeatherServiceProtocol {
+    func getWeather(withLocation location: CLLocation,
+                    onSuccess: @escaping (_ jsonObject: [String: Any])-> Void,
+                    onFailure: @escaping(_ error: WeatherError)-> Void){
         
         let latitude = location.coordinate.latitude as Double
-        let longitude = location.coordinate.longitude as Double
-        let urlString = "\(APIManager.baseUrl)/weather?lat=\(latitude)&lon=\(longitude)&units=imperial\(APIManager.apiKey)"
+        let longitude = location.coordinate.longitude as Double                
+        let weatherRequest = WeatherRouter.getWeather(latitude: latitude, longitude: longitude)
         
-        print("URL: " + urlString) 
-        
-        guard let weatherURL = URL(string: urlString) else {
-            let error = WeatherError(code: 404, message: StringValues.stringUnableToConnectToServer)
+        self.getGenericResponseData(requester: weatherRequest, onSuccess: { (jsonObjectResponse) in
+            return onSuccess(jsonObjectResponse)
+        }, onFailure: { (error) in
             return onFailure(error)
-        }
-        
-        let dataTask = APIManager.session.dataTask(with: weatherURL) { (dataResponse, response, error) in
-            
-            if let error = error {
-                print("Error:\n\(error)")
-                let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
-                onFailure(error)
-            } else {
-                
-                guard let data = dataResponse else {
-                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
-                    return onFailure(error)
-                }
-                
-                let dataString = String(data: data, encoding: String.Encoding.utf8)
-                
-                print("All the weather data:\n\(dataString!)")
-                
-                guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any] else {
-                    print("Error: did not receive data")
-                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
-                    return onFailure(error)
-                }
-                
-                onSuccess(jsonObject!)
-                
-            }
-        }
-        dataTask.resume()
+        })
     }
     
-    
-    func getForecast(withLocation location: CLLocation, onSuccess: @escaping (_ jsonObject: [String : Any])-> Void, onFailure: @escaping(_ error : WeatherError)-> Void){
+    func getForecast(withLocation location: CLLocation,
+                     onSuccess: @escaping (_ jsonObject: [String: Any])-> Void,
+                     onFailure: @escaping(_ error: WeatherError)-> Void){
         
         let latitude = location.coordinate.latitude as Double
         let longitude = location.coordinate.longitude as Double
-        let urlString = "\(APIManager.baseUrl)/forecast?lat=\(latitude)&lon=\(longitude)&units=imperial\(APIManager.apiKey)"
+        let forecastRequest = WeatherRouter.getForecast(latitude: latitude, longitude: longitude)
         
-        print("URL: " + urlString)
-        
-        guard let weatherURL = URL(string: urlString) else {
-            let error = WeatherError(code: 404, message: StringValues.stringUnableToConnectToServer)
+        self.getGenericResponseData(requester: forecastRequest, onSuccess: { (jsonObjectResponse) in
+            return onSuccess(jsonObjectResponse)
+        }, onFailure: { (error) in
             return onFailure(error)
-        }
-        
-        let dataTask = APIManager.session.dataTask(with: weatherURL) { (dataResponse, response, error) in
-            
-            if let error = error {
-                print("Error:\n\(error)")
+        })
+    }
+    
+     private func getGenericResponseData(requester: URLRequestConvertible,
+                                         onSuccess: @escaping (_ jsonObject: [String: Any])-> Void,
+                                         onFailure: @escaping(_ error: WeatherError)-> Void) {
+        Alamofire.request(requester).responseJSON { (response: DataResponse<Any>) in
+            guard let data = response.data else {
                 let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
-                onFailure(error)
-            } else {
-                
-                guard let data = dataResponse else {
-                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
-                    return onFailure(error)
-                }
-                
-                let dataString = String(data: data, encoding: String.Encoding.utf8)
-                
-                print("All the forecast data:\n\(dataString!)")
-                
-                guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any] else {
-                    print("Error: did not receive data")
-                    let error = WeatherError(code: 404, message: StringValues.stringUnableToFindForecast)
-                    return onFailure(error)
-                }
-                
-                onSuccess(jsonObject!)
-                
+                return onFailure(error)
             }
+            
+            guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                print("Error: did not receive data")
+                let error = WeatherError(code: 404, message: StringValues.stringUnableToFindTemperature)
+                return onFailure(error)
+            }
+            return onSuccess(jsonObject!)
         }
-        dataTask.resume()
-    }    
+    }
+    
 }
-
